@@ -1,5 +1,5 @@
 use crate::tuple::Tuple;
-use crate::tuple::utils::*;
+use crate::tuple::utils::float_eq;
 
 pub struct Point {
     _x: f64,
