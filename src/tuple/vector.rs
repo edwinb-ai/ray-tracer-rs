@@ -8,6 +8,7 @@ pub struct Vector {
 }
 
 impl Tuple for Vector {
+    /// Create a `Vector` centered at `(0, 0, 0)`
     fn origin() -> Self {
         Vector {
             _x: 0.0,
@@ -17,6 +18,7 @@ impl Tuple for Vector {
         }
     }
 
+    /// Create a new `Vector` with position `(x, y, z)`
     fn new(x: f64, y: f64, z: f64) -> Self {
         Vector {
             _x: x,

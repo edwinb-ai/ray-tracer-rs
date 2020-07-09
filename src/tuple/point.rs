@@ -8,6 +8,7 @@ pub struct Point {
 }
 
 impl Tuple for Point {
+    /// Create a `Point` centered at `(0, 0, 0)`
     fn origin() -> Self {
         Point {
             _x: 0.0,
@@ -17,6 +18,7 @@ impl Tuple for Point {
         }
     }
 
+    /// Create a new `Point` with position `(x, y, z)`
     fn new(x: f64, y: f64, z: f64) -> Self {
         Point {
             _x: x,
