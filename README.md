@@ -5,7 +5,8 @@ This my attempt at the [Ray Tracer Challenge](http://raytracerchallenge.com/) wh
 
 ## Disclaimer
 
-This is a personal project, I do not own the book and all code is my own.
+This is a personal project. I own a copy of the book but I do not own any of its intellectual property.
+All of the code is my own.
 
 ## Licensing
 
