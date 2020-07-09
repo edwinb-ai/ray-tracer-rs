@@ -5,60 +5,78 @@
 /// `get_x`, `get_y`, `get_z` and `get_w` are
 /// all "getters" for the types that implement
 /// this trait.
-pub trait Tuple<T> {
-    fn get_x(self) -> T;
-    fn get_y(self) -> T;
-    fn get_z(self) -> T;
-    fn get_w(self) -> T;
+pub trait Tuple {
+    fn origin () -> Self;
+    fn new(x: f64, y: f64, z: f64) -> Self;
+    fn get_x(&self) -> f64;
+    fn get_y(&self) -> f64;
+    fn get_z(&self) -> f64;
+    fn get_w(&self) -> f64;
 }
 
-struct Vector<T> {
-    x: T,
-    y: T,
-    z: T,
-    w: T,
+struct Vector {
+    _x: f64,
+    _y: f64,
+    _z: f64,
+    _w: f64,
 }
 
-impl<T> Tuple<T> for Vector<T> {
-    fn get_x(self) -> T {
-        self.x
+impl Tuple for Vector {
+    fn origin() -> Self {
+        Vector{ _x: 0.0, _y: 0.0, _z: 0.0, _w: 1.0}
     }
 
-    fn get_y(self) -> T {
-        self.y
+    fn new(x: f64, y: f64, z: f64) -> Self {
+        Vector{ _x: x, _y: y, _z: z, _w: 1.0}
     }
 
-    fn get_z(self) -> T {
-        self.z
+    fn get_x(&self) -> f64 {
+        self._x
     }
 
-    fn get_w(self) -> T {
-        self.w
+    fn get_y(&self) -> f64 {
+        self._y
+    }
+
+    fn get_z(&self) -> f64 {
+        self._z
+    }
+
+    fn get_w(&self) -> f64 {
+        self._w
     }
 }
 
-struct Point<T> {
-    x: T,
-    y: T,
-    z: T,
-    w: T,
+struct Point {
+    _x: f64,
+    _y: f64,
+    _z: f64,
+    _w: f64
 }
 
-impl<T> Tuple<T> for Point<T> {
-    fn get_x(self) -> T {
-        self.x
+impl Tuple for Point {
+    fn origin() -> Self {
+        Point{ _x: 0.0, _y: 0.0, _z: 0.0, _w: 0.0}
     }
 
-    fn get_y(self) -> T {
-        self.y
+    fn new(x: f64, y: f64, z: f64) -> Self {
+        Point{ _x: x, _y: y, _z: z, _w: 0.0}
     }
 
-    fn get_z(self) -> T {
-        self.z
+    fn get_x(&self) -> f64 {
+        self._x
     }
 
-    fn get_w(self) -> T {
-        self.w
+    fn get_y(&self) -> f64 {
+        self._y
+    }
+
+    fn get_z(&self) -> f64 {
+        self._z
+    }
+
+    fn get_w(&self) -> f64 {
+        self._w
     }
 }
 
@@ -67,14 +85,20 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_for_vector() {
-        let v = Vector::<f64>{x: 4.0, y: 4.0, z: 5.0, w: 1.0};
+    fn test_for_origin_vector() {
+        let v = Vector::origin();
         assert_eq!(1.0, v.get_w());
+        assert_eq!(0.0, v.get_x());
+        assert_eq!(0.0, v.get_y());
+        assert_eq!(0.0, v.get_z());
     }
 
     #[test]
     fn test_for_point() {
-        let p = Point::<f64>{x: 4.0, y: 4.0, z: 5.0, w: 0.0};
+        let p = Point::origin();
         assert_eq!(0.0, p.get_w());
+        assert_eq!(0.0, p.get_x());
+        assert_eq!(0.0, p.get_y());
+        assert_eq!(0.0, p.get_z());
     }
 }
