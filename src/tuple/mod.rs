@@ -4,6 +4,7 @@ pub mod utils;
 pub use point::Point;
 pub use vector::Vector;
 use std::cmp::PartialEq;
+// use std::ops::Add;
 
 /// The `Tuple` trait will be used to implement
 /// either a Vector (which has `w` value of 0.0)

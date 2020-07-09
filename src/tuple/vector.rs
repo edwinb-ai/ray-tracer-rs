@@ -53,8 +53,6 @@ impl PartialEq for Vector {
         let ztrue = float_eq(self._z, other.get_z());
         let wtrue = float_eq(self._w, other.get_w());
 
-        // NOTE: I am skipping over floating point
-        // comparison, and trusting on the compiler for this
         if xtrue && ytrue && ztrue && wtrue {
             true
         } else {

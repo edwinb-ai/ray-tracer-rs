@@ -1,5 +1,6 @@
-use crate::tuple::Tuple;
 use crate::tuple::utils::float_eq;
+use crate::tuple::{Tuple, Vector};
+use std::ops::Add;
 
 pub struct Point {
     _x: f64,
@@ -47,19 +48,43 @@ impl Tuple for Point {
 }
 
 impl PartialEq for Point {
+    /// Allow for the comparison between a `Point` and
+    /// another `Point`
     fn eq(&self, other: &Self) -> bool {
         let xtrue = float_eq(self._x, other.get_x());
         let ytrue = float_eq(self._y, other.get_y());
         let ztrue = float_eq(self._z, other.get_z());
         let wtrue = float_eq(self._w, other.get_w());
 
-        // NOTE: I am skipping over floating point
-        // comparison, and trusting on the compiler for this
         if xtrue && ytrue && ztrue && wtrue {
             true
         } else {
             false
         }
+    }
+}
+
+// Add a Point and a Vector
+impl Add<Vector> for Point {
+    type Output = Self;
+
+    /// When you add a `Point` and a `Vector` the result
+    /// should always be a `Point`.
+    /// 
+    /// # Examples
+    /// ```
+    /// use ray_tracer::tuple::*;
+    /// 
+    /// let p1 = Point::new(3.0, -2.0, 5.0);
+    /// let v1 = Vector::new(-2.0, 3.0, 1.0);
+    /// let res: Point = p1 + v1; // Should be of type `Point`
+    /// ```
+    fn add(self, other: Vector) -> Point {
+        Point::new(
+            self._x + other.get_x(),
+            self._y + other.get_y(),
+            self._z + other.get_z(),
+        )
     }
 }
 
@@ -92,8 +117,11 @@ mod tests {
         assert!(p1 == p2);
     }
 
-    // #[test]
-    // fn test_addition() {
-    //     let p1 = Point::new(x: f64, y: f64, z: f64)
-    // }
+    #[test]
+    fn test_add_point_vecor() {
+        let p1 = Point::new(3.0, -2.0, 5.0);
+        let v1 = Vector::new(-2.0, 3.0, 1.0);
+        let res = Point::new(1.0, 1.0, 6.0);
+        assert!((p1 + v1) == res);
+    }
 }
