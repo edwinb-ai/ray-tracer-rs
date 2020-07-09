@@ -45,6 +45,23 @@ impl Tuple for Point {
     }
 }
 
+impl PartialEq for Point {
+    fn eq(&self, other: &Self) -> bool {
+        let xtrue = self._x == other.get_x();
+        let ytrue = self._y == other.get_y();
+        let ztrue = self._z == other.get_z();
+        let wtrue = self._w == other.get_w();
+
+        // NOTE: I am skipping over floating point
+        // comparison, and trusting on the compiler for this
+        if xtrue && ytrue && ztrue && wtrue {
+            true
+        } else {
+            false
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -65,5 +82,12 @@ mod tests {
         assert_eq!(-4.0, p.get_y());
         assert_eq!(3.0, p.get_z());
         assert_eq!(0.0, p.get_w());
+    }
+
+    #[test]
+    fn test_equality_point() {
+        let p1 = Point::origin();
+        let p2 = Point::origin();
+        assert!(p1 == p2);
     }
 }

@@ -45,6 +45,23 @@ impl Tuple for Vector {
     }
 }
 
+impl PartialEq for Vector {
+    fn eq(&self, other: &Self) -> bool {
+        let xtrue = self._x == other.get_x();
+        let ytrue = self._y == other.get_y();
+        let ztrue = self._z == other.get_z();
+        let wtrue = self._w == other.get_w();
+
+        // NOTE: I am skipping over floating point
+        // comparison, and trusting on the compiler for this
+        if xtrue && ytrue && ztrue && wtrue {
+            true
+        } else {
+            false
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -59,11 +76,18 @@ mod tests {
     }
 
     #[test]
-    fn test_new_point() {
+    fn test_new_vector() {
         let v = Vector::new(4.0, -4.0, 3.0);
         assert_eq!(4.0, v.get_x());
         assert_eq!(-4.0, v.get_y());
         assert_eq!(3.0, v.get_z());
         assert_eq!(1.0, v.get_w());
+    }
+
+    #[test]
+    fn test_equality_vector() {
+        let v1 = Vector::origin();
+        let v2 = Vector::origin();
+        assert!(v1 == v2);
     }
 }
