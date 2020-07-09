@@ -52,9 +52,18 @@ mod tests {
     #[test]
     fn test_for_origin_vector() {
         let v = Vector::origin();
-        assert_eq!(1.0, v.get_w());
         assert_eq!(0.0, v.get_x());
         assert_eq!(0.0, v.get_y());
         assert_eq!(0.0, v.get_z());
+        assert_eq!(1.0, v.get_w());
+    }
+
+    #[test]
+    fn test_new_point() {
+        let v = Vector::new(4.0, -4.0, 3.0);
+        assert_eq!(4.0, v.get_x());
+        assert_eq!(-4.0, v.get_y());
+        assert_eq!(3.0, v.get_z());
+        assert_eq!(1.0, v.get_w());
     }
 }

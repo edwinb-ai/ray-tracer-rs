@@ -57,4 +57,13 @@ mod tests {
         assert_eq!(0.0, p.get_y());
         assert_eq!(0.0, p.get_z());
     }
+
+    #[test]
+    fn test_new_point() {
+        let p = Point::new(4.0, -4.0, 3.0);
+        assert_eq!(4.0, p.get_x());
+        assert_eq!(-4.0, p.get_y());
+        assert_eq!(3.0, p.get_z());
+        assert_eq!(0.0, p.get_w());
+    }
 }
