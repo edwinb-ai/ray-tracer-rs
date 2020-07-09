@@ -1,4 +1,5 @@
-use crate::tuple::Tuple;
+use crate::tuple::{Tuple, Point};
+use std::ops::Add;
 use crate::tuple::utils::float_eq;
 
 pub struct Vector {
@@ -61,6 +62,30 @@ impl PartialEq for Vector {
     }
 }
 
+impl Add for Vector {
+    type Output = Self;
+
+    fn add(self, other: Vector) -> Vector {
+        Vector::new(
+            self._x + other.get_x(),
+            self._y + other.get_y(),
+            self._z + other.get_z(),
+        )
+    }
+}
+
+impl Add<Point> for Vector {
+    type Output = Point;
+
+    fn add(self, other: Point) -> Point {
+        Point::new(
+            self._x + other.get_x(),
+            self._y + other.get_y(),
+            self._z + other.get_z(),
+        )
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -88,5 +113,21 @@ mod tests {
         let v1 = Vector::origin();
         let v2 = Vector::origin();
         assert!(v1 == v2);
+    }
+
+    #[test]
+    fn test_add_two_vectors() {
+        let v1 = Vector::new(3.0, -2.0, 5.0);
+        let v2 = Vector::new(-2.0, 3.0, 1.0);
+        let res = Vector::new(1.0, 1.0, 6.0);
+        assert!(v1 + v2 == res);
+    }
+
+    #[test]
+    fn test_add_vector_point() {
+        let p1 = Point::new(3.0, -2.0, 5.0);
+        let v1 = Vector::new(-2.0, 3.0, 1.0);
+        let res = Point::new(1.0, 1.0, 6.0);
+        assert!(v1 + p1 == res);
     }
 }

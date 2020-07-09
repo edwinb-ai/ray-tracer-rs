@@ -118,7 +118,7 @@ mod tests {
     }
 
     #[test]
-    fn test_add_point_vecor() {
+    fn test_add_point_vector() {
         let p1 = Point::new(3.0, -2.0, 5.0);
         let v1 = Vector::new(-2.0, 3.0, 1.0);
         let res = Point::new(1.0, 1.0, 6.0);
