@@ -1,5 +1,6 @@
 pub mod point;
 pub mod vector;
+pub mod utils;
 pub use point::Point;
 pub use vector::Vector;
 use std::cmp::PartialEq;

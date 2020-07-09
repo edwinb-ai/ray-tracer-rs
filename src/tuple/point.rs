@@ -1,4 +1,5 @@
 use crate::tuple::Tuple;
+use crate::tuple::utils::*;
 
 pub struct Point {
     _x: f64,
@@ -47,10 +48,10 @@ impl Tuple for Point {
 
 impl PartialEq for Point {
     fn eq(&self, other: &Self) -> bool {
-        let xtrue = self._x == other.get_x();
-        let ytrue = self._y == other.get_y();
-        let ztrue = self._z == other.get_z();
-        let wtrue = self._w == other.get_w();
+        let xtrue = float_eq(self._x, other.get_x());
+        let ytrue = float_eq(self._y, other.get_y());
+        let ztrue = float_eq(self._z, other.get_z());
+        let wtrue = float_eq(self._w, other.get_w());
 
         // NOTE: I am skipping over floating point
         // comparison, and trusting on the compiler for this
@@ -90,4 +91,9 @@ mod tests {
         let p2 = Point::origin();
         assert!(p1 == p2);
     }
+
+    // #[test]
+    // fn test_addition() {
+    //     let p1 = Point::new(x: f64, y: f64, z: f64)
+    // }
 }
