@@ -1,5 +1,5 @@
 use crate::tuple::{Tuple, Point};
-use std::ops::Add;
+use std::ops::{Add, Sub};
 use crate::tuple::utils::float_eq;
 
 pub struct Vector {
@@ -62,8 +62,9 @@ impl PartialEq for Vector {
     }
 }
 
+/// Add two `Vector`s together
 impl Add for Vector {
-    type Output = Self;
+    type Output = Vector;
 
     fn add(self, other: Vector) -> Vector {
         Vector::new(
@@ -74,6 +75,7 @@ impl Add for Vector {
     }
 }
 
+/// Add a `Vector` and a `Point`
 impl Add<Point> for Vector {
     type Output = Point;
 
@@ -86,6 +88,33 @@ impl Add<Point> for Vector {
     }
 }
 
+/// Subtract two `Vector`s.
+impl Sub for Vector {
+    type Output = Vector;
+
+    fn sub(self, other: Vector) -> Vector {
+        Vector::new(
+            self._x - other.get_x(),
+            self._y - other.get_y(),
+            self._z - other.get_z(),
+        )
+    }
+}
+
+/// Subtract a `Vector` and a `Point`
+impl Sub<Point> for Vector {
+    type Output = Point;
+
+    fn sub(self, other: Point) -> Point {
+        Point::new(
+            self._x - other.get_x(),
+            self._y - other.get_y(),
+            self._z - other.get_z(),
+        )
+    }
+}
+
+// * Unit tests for `Vector`
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -129,5 +158,21 @@ mod tests {
         let v1 = Vector::new(-2.0, 3.0, 1.0);
         let res = Point::new(1.0, 1.0, 6.0);
         assert!(v1 + p1 == res);
+    }
+
+    #[test]
+    fn test_subtract_two_vectors() {
+        let v1 = Vector::new(3.0, 2.0, 1.0);
+        let v2 = Vector::new(5.0, 6.0, 7.0);
+        let res = Vector::new(-2.0, -4.0, -6.0);
+        assert!(v1 - v2 == res);
+    }
+
+    #[test]
+    fn test_subtract_vector_point() {
+        let v1 = Vector::new(3.0, 2.0, 1.0);
+        let p1 = Point::new(5.0, 6.0, 7.0);
+        let res = Point::new(-2.0, -4.0, -6.0);
+        assert!(v1 - p1 == res);
     }
 }

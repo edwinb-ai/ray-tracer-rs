@@ -1,6 +1,6 @@
 use crate::tuple::utils::float_eq;
 use crate::tuple::{Tuple, Vector};
-use std::ops::Add;
+use std::ops::{Add, Sub};
 
 pub struct Point {
     _x: f64,
@@ -64,26 +64,54 @@ impl PartialEq for Point {
     }
 }
 
-// Add a Point and a Vector
+/// Add a `Point` and a `Vector`
+/// 
+/// When you add a `Point` and a `Vector` the result
+/// should always be a `Point`.
+/// 
+/// # Examples
+/// ```
+/// use ray_tracer::tuple::*;
+/// 
+/// let p1 = Point::new(3.0, -2.0, 5.0);
+/// let v1 = Vector::new(-2.0, 3.0, 1.0);
+/// let res: Point = p1 + v1; // Should be of type `Point`
+/// ```
 impl Add<Vector> for Point {
-    type Output = Self;
-
-    /// When you add a `Point` and a `Vector` the result
-    /// should always be a `Point`.
-    /// 
-    /// # Examples
-    /// ```
-    /// use ray_tracer::tuple::*;
-    /// 
-    /// let p1 = Point::new(3.0, -2.0, 5.0);
-    /// let v1 = Vector::new(-2.0, 3.0, 1.0);
-    /// let res: Point = p1 + v1; // Should be of type `Point`
-    /// ```
+    type Output = Point;
+    
     fn add(self, other: Vector) -> Point {
         Point::new(
             self._x + other.get_x(),
             self._y + other.get_y(),
             self._z + other.get_z(),
+        )
+    }
+}
+
+
+/// Subtract two `Point`s.
+impl Sub for Point {
+    type Output = Vector;
+
+    fn sub(self, other: Point) -> Vector {
+        Vector::new(
+            self._x - other.get_x(),
+            self._y - other.get_y(),
+            self._z - other.get_z(),
+        )
+    }
+}
+
+/// Subtract a `Point` and a `Vector`
+impl Sub<Vector> for Point {
+    type Output = Point;
+
+    fn sub(self, other: Vector) -> Point {
+        Point::new(
+            self._x - other.get_x(),
+            self._y - other.get_y(),
+            self._z - other.get_z(),
         )
     }
 }
@@ -123,5 +151,21 @@ mod tests {
         let v1 = Vector::new(-2.0, 3.0, 1.0);
         let res = Point::new(1.0, 1.0, 6.0);
         assert!((p1 + v1) == res);
+    }
+
+    #[test]
+    fn test_subtract_two_points() {
+        let p1 = Point::new(3.0, 2.0, 1.0);
+        let p2 = Point::new(5.0, 6.0, 7.0);
+        let res = Vector::new(-2.0, -4.0, -6.0);
+        assert!(p1 - p2 == res);
+    }
+
+    #[test]
+    fn test_subtract_point_vector() {
+        let v1 = Vector::new(3.0, 2.0, 1.0);
+        let p1 = Point::new(5.0, 6.0, 7.0);
+        let res = Point::new(2.0, 4.0, 6.0);
+        assert!(p1 - v1 == res);
     }
 }

@@ -4,7 +4,7 @@ pub mod utils;
 pub use point::Point;
 pub use vector::Vector;
 use std::cmp::PartialEq;
-// use std::ops::Add;
+// use std::ops;
 
 /// The `Tuple` trait will be used to implement
 /// either a Vector (which has `w` value of 0.0)
@@ -13,7 +13,7 @@ use std::cmp::PartialEq;
 /// `get_x`, `get_y`, `get_z` and `get_w` are
 /// all "getters" for the types that implement
 /// this trait.
-pub trait Tuple: PartialEq {
+pub trait Tuple: PartialEq{
     fn origin () -> Self;
     fn new(x: f64, y: f64, z: f64) -> Self;
     fn get_x(&self) -> f64;
