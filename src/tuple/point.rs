@@ -1,6 +1,6 @@
 use crate::tuple::utils::float_eq;
 use crate::tuple::{Tuple, Vector};
-use std::ops::{Add, Sub};
+use std::ops::{Add, Sub, Neg};
 
 pub struct Point {
     _x: f64,
@@ -116,6 +116,18 @@ impl Sub<Vector> for Point {
     }
 }
 
+impl Neg for Point {
+    type Output = Point;
+
+    fn neg(self) -> Point {
+        Point::new(
+            -self._x,
+            -self._y,
+            -self._z
+        )
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -167,5 +179,12 @@ mod tests {
         let p1 = Point::new(5.0, 6.0, 7.0);
         let res = Point::new(2.0, 4.0, 6.0);
         assert!(p1 - v1 == res);
+    }
+
+    #[test]
+    fn negate_point() {
+        let p1 = Point::new(1.0, -2.0, 3.0);
+        let res = Point::new(-1.0, 2.0, -3.0);
+        assert!(-p1 == res);
     }
 }

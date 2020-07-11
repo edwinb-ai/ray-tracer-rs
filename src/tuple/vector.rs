@@ -1,5 +1,5 @@
 use crate::tuple::{Tuple, Point};
-use std::ops::{Add, Sub};
+use std::ops::{Add, Sub, Neg};
 use crate::tuple::utils::float_eq;
 
 pub struct Vector {
@@ -114,6 +114,19 @@ impl Sub<Point> for Vector {
     }
 }
 
+/// Unary negation on a `Vector`
+impl Neg for Vector {
+    type Output = Vector;
+
+    fn neg(self) -> Vector {
+        Vector::new(
+            -self._x,
+            -self._y,
+            -self._z
+        )
+    }
+}
+
 // * Unit tests for `Vector`
 #[cfg(test)]
 mod tests {
@@ -174,5 +187,20 @@ mod tests {
         let p1 = Point::new(5.0, 6.0, 7.0);
         let res = Point::new(-2.0, -4.0, -6.0);
         assert!(v1 - p1 == res);
+    }
+
+    #[test]
+    fn subtract_from_origin() {
+        let v1 = Vector::origin();
+        let v2 = Vector::new(1.0, -2.0, 3.0);
+        let res = Vector::new(-1.0, 2.0, -3.0);
+        assert!(v1 - v2 == res);
+    }
+
+    #[test]
+    fn negate_vector() {
+        let v1 = Vector::new(1.0, -2.0, 3.0);
+        let res = Vector::new(-1.0, 2.0, -3.0);
+        assert!(-v1 == res);
     }
 }
