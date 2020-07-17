@@ -1,6 +1,6 @@
 use crate::tuple::utils::float_eq;
 use crate::tuple::{Tuple, Vector};
-use std::ops::{Add, Sub, Neg};
+use std::ops::{Add, Sub, Neg, Mul};
 
 pub struct Point {
     _x: f64,
@@ -128,6 +128,32 @@ impl Neg for Point {
     }
 }
 
+/// Multiplication by a scalar, rhs
+impl Mul<f64> for Point {
+    type Output = Self;
+
+    fn mul(self, rhs: f64) -> Self {
+        Point::new(
+            self._x * rhs,
+            self._y * rhs,
+            self._z * rhs
+        )
+    }
+}
+
+/// Multiplication by a scalar, lhs
+impl Mul<Point> for f64 {
+    type Output = Point;
+
+    fn mul(self, rhs: Point) -> Point {
+        Point::new(
+            self * rhs.get_x(),
+            self * rhs.get_y(),
+            self * rhs.get_z()
+        )
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -186,5 +212,21 @@ mod tests {
         let p1 = Point::new(1.0, -2.0, 3.0);
         let res = Point::new(-1.0, 2.0, -3.0);
         assert!(-p1 == res);
+    }
+
+    #[test]
+    fn point_scalar_multiplication_rhs() {
+        let p1 = Point::new(1.0, -2.0, 3.0);
+        let a = 3.5;
+        let result = Point::new(3.5, -7.0, 10.5);
+        assert!(a * p1 == result);
+    }
+
+    #[test]
+    fn point_scalar_multiplication_lhs() {
+        let p1 = Point::new(1.0, -2.0, 3.0);
+        let a = 3.5;
+        let result = Point::new(3.5, -7.0, 10.5);
+        assert!(p1 * a == result);
     }
 }

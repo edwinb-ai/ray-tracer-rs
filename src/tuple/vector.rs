@@ -1,5 +1,5 @@
 use crate::tuple::{Tuple, Point};
-use std::ops::{Add, Sub, Neg};
+use std::ops::{Add, Sub, Neg, Mul};
 use crate::tuple::utils::float_eq;
 
 pub struct Vector {
@@ -127,6 +127,32 @@ impl Neg for Vector {
     }
 }
 
+/// Multiplication by a scalar, rhs
+impl Mul<f64> for Vector {
+    type Output = Self;
+
+    fn mul(self, rhs: f64) -> Self {
+        Vector::new(
+            self._x * rhs,
+            self._y * rhs,
+            self._z * rhs
+        )
+    }
+}
+
+/// Multiplication by a scalar, lhs
+impl Mul<Vector> for f64 {
+    type Output = Vector;
+
+    fn mul(self, rhs: Vector) -> Vector {
+        Vector::new(
+            self * rhs.get_x(),
+            self * rhs.get_y(),
+            self * rhs.get_z()
+        )
+    }
+}
+
 // * Unit tests for `Vector`
 #[cfg(test)]
 mod tests {
@@ -202,5 +228,21 @@ mod tests {
         let v1 = Vector::new(1.0, -2.0, 3.0);
         let res = Vector::new(-1.0, 2.0, -3.0);
         assert!(-v1 == res);
+    }
+
+    #[test]
+    fn vector_scalar_multiplication_rhs() {
+        let v1 = Vector::new(1.0, -2.0, 3.0);
+        let a = 3.5;
+        let result = Vector::new(3.5, -7.0, 10.5);
+        assert!(a * v1 == result);
+    }
+
+    #[test]
+    fn vector_scalar_multiplication_lhs() {
+        let v1 = Vector::new(1.0, -2.0, 3.0);
+        let a = 3.5;
+        let result = Vector::new(3.5, -7.0, 10.5);
+        assert!(v1 * a == result);
     }
 }
