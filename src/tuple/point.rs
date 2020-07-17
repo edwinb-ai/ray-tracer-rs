@@ -9,6 +9,7 @@ pub struct Point {
     _w: f64,
 }
 
+// * Trait implementations
 impl Tuple for Point {
     /// Create a `Point` centered at `(0, 0, 0)`
     fn origin() -> Self {

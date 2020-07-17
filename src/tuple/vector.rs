@@ -9,6 +9,30 @@ pub struct Vector {
     _w: f64,
 }
 
+// * Methods for `Vector`
+impl Vector {
+    /// Compute the magnitude of a `Vector`
+    /// 
+    /// Compute the un-normalized magnitude of a `Vector`.
+    /// 
+    /// # Examples
+    /// ```
+    /// use ray_tracer::tuple::*;
+    /// 
+    /// let v1 = Vector::new(-1.0, -2.0, -3.0);
+    /// let res: f64 = 14.0;
+    /// assert_eq!(v1.magnitude(), res.sqrt());
+    /// ```
+    pub fn magnitude(&self) -> f64 {
+        let mut magn: f64 = self._x * self._x;
+        magn += self._y * self._y;
+        magn += self._z * self._z;
+
+        magn.sqrt()
+    }
+}
+
+// * Trait implementations
 impl Tuple for Vector {
     /// Create a `Vector` centered at `(0, 0, 0)`
     fn origin() -> Self {
@@ -265,5 +289,28 @@ mod tests {
         let a = 2.0;
         let result = Vector::new(0.5, -1.0, 1.5);
         assert!(v1 / a == result);
+    }
+
+    #[test]
+    fn unitary_magnitudes() {
+        let v1 = Vector::new(1.0, 0.0, 0.0);
+        assert_eq!(v1.magnitude(), 1.0);
+
+        let v1 = Vector::new(0.0, 1.0, 0.0);
+        assert_eq!(v1.magnitude(), 1.0);
+
+        let v1 = Vector::new(0.0, 0.0, 1.0);
+        assert_eq!(v1.magnitude(), 1.0);
+    }
+
+    #[test]
+    fn vector_magnitude() {
+        let v1 = Vector::new(1.0, 2.0, 3.0);
+        let res: f64 = 14.0;
+        assert_eq!(v1.magnitude(), res.sqrt());
+
+        let v1 = Vector::new(-1.0, -2.0, -3.0);
+        let res: f64 = 14.0;
+        assert_eq!(v1.magnitude(), res.sqrt());
     }
 }
