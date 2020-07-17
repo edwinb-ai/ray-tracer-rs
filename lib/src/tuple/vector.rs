@@ -2,6 +2,7 @@ use crate::tuple::utils::float_eq;
 use crate::tuple::{Point, Tuple};
 use std::ops::{Add, Div, Mul, Neg, Sub};
 
+#[derive(Copy, Clone, Debug)]
 pub struct Vector {
     _x: f64,
     _y: f64,

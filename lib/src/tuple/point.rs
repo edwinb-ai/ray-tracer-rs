@@ -2,6 +2,7 @@ use crate::tuple::utils::float_eq;
 use crate::tuple::{Tuple, Vector};
 use std::ops::{Add, Sub, Neg, Mul, Div};
 
+#[derive(Copy, Clone, Debug)]
 pub struct Point {
     _x: f64,
     _y: f64,
@@ -172,7 +173,7 @@ impl Div<f64> for Point {
 #[macro_export]
 macro_rules! point {
     ($x:expr, $y:expr, $z:expr) => {
-        Point::new($x, $y, $z)
+        Point::new($x as f64, $y as f64, $z as f64)
     };
 }
 
