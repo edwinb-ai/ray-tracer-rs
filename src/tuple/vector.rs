@@ -1,5 +1,5 @@
 use crate::tuple::{Tuple, Point};
-use std::ops::{Add, Sub, Neg, Mul};
+use std::ops::{Add, Sub, Neg, Mul, Div};
 use crate::tuple::utils::float_eq;
 
 pub struct Vector {
@@ -153,6 +153,19 @@ impl Mul<Vector> for f64 {
     }
 }
 
+/// Scalar division only
+impl Div<f64> for Vector {
+    type Output = Self;
+
+    fn div(self, rhs: f64) -> Self {
+        Vector::new(
+            self._x / rhs,
+            self._y / rhs,
+            self._z / rhs
+        )
+    }
+}
+
 // * Unit tests for `Vector`
 #[cfg(test)]
 mod tests {
@@ -244,5 +257,13 @@ mod tests {
         let a = 3.5;
         let result = Vector::new(3.5, -7.0, 10.5);
         assert!(v1 * a == result);
+    }
+
+    #[test]
+    fn vector_scalar_division_rhs() {
+        let v1 = Vector::new(1.0, -2.0, 3.0);
+        let a = 2.0;
+        let result = Vector::new(0.5, -1.0, 1.5);
+        assert!(v1 / a == result);
     }
 }

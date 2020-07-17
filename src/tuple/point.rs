@@ -1,6 +1,6 @@
 use crate::tuple::utils::float_eq;
 use crate::tuple::{Tuple, Vector};
-use std::ops::{Add, Sub, Neg, Mul};
+use std::ops::{Add, Sub, Neg, Mul, Div};
 
 pub struct Point {
     _x: f64,
@@ -154,6 +154,19 @@ impl Mul<Point> for f64 {
     }
 }
 
+/// Scalar division only
+impl Div<f64> for Point {
+    type Output = Self;
+
+    fn div(self, rhs: f64) -> Self {
+        Point::new(
+            self._x / rhs,
+            self._y / rhs,
+            self._z / rhs
+        )
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -228,5 +241,13 @@ mod tests {
         let a = 3.5;
         let result = Point::new(3.5, -7.0, 10.5);
         assert!(p1 * a == result);
+    }
+
+    #[test]
+    fn point_scalar_division_rhs() {
+        let p1 = Point::new(1.0, -2.0, 3.0);
+        let a = 2.0;
+        let result = Point::new(0.5, -1.0, 1.5);
+        assert!(p1 / a == result);
     }
 }
