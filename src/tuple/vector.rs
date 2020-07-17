@@ -190,6 +190,13 @@ impl Div<f64> for Vector {
     }
 }
 
+// * Useful macros
+macro_rules! vector {
+    ($x:expr, $y:expr, $z:expr) => {
+        Vector::new($x, $y, $z)
+    };
+}
+
 // * Unit tests for `Vector`
 #[cfg(test)]
 mod tests {
@@ -312,5 +319,12 @@ mod tests {
         let v1 = Vector::new(-1.0, -2.0, -3.0);
         let res: f64 = 14.0;
         assert_eq!(v1.magnitude(), res.sqrt());
+    }
+
+    #[test]
+    fn vector_macro() {
+        let v1 = vector!(1.0, 2.0, 3.0);
+        let v2 = Vector::new(1.0, 2.0, 3.0);
+        assert!(v1 == v2);
     }
 }

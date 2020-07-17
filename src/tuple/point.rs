@@ -168,6 +168,13 @@ impl Div<f64> for Point {
     }
 }
 
+// * Useful macros
+macro_rules! point {
+    ($x:expr, $y:expr, $z:expr) => {
+        Point::new($x, $y, $z)
+    };
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -250,5 +257,12 @@ mod tests {
         let a = 2.0;
         let result = Point::new(0.5, -1.0, 1.5);
         assert!(p1 / a == result);
+    }
+
+    #[test]
+    fn point_macro() {
+        let p1 = point!(1.0, 2.0, 3.0);
+        let p2 = Point::new(1.0, 2.0, 3.0);
+        assert!(p1 == p2);
     }
 }
