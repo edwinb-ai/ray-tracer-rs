@@ -1,6 +1,6 @@
-use crate::tuple::{Tuple, Point};
-use std::ops::{Add, Sub, Neg, Mul, Div};
 use crate::tuple::utils::float_eq;
+use crate::tuple::{Point, Tuple};
+use std::ops::{Add, Div, Mul, Neg, Sub};
 
 pub struct Vector {
     _x: f64,
@@ -12,13 +12,13 @@ pub struct Vector {
 // * Methods for `Vector`
 impl Vector {
     /// Compute the magnitude of a `Vector`
-    /// 
+    ///
     /// Compute the un-normalized magnitude of a `Vector`.
-    /// 
+    ///
     /// # Examples
     /// ```
     /// use ray_tracer::tuple::*;
-    /// 
+    ///
     /// let v1 = Vector::new(-1.0, -2.0, -3.0);
     /// let res: f64 = 14.0;
     /// assert_eq!(v1.magnitude(), res.sqrt());
@@ -32,26 +32,71 @@ impl Vector {
     }
 
     /// Compute the magnitude of a `Vector` and normalize it.
-    /// 
+    ///
     /// This should always return a new `Vector` whose magnitude
     /// should be always 1.0.
-    /// 
+    ///
     /// # Examples
     /// ```
     /// use ray_tracer::tuple::{Tuple, Vector};
     /// use ray_tracer::vector;
-    /// 
+    ///
     /// let v1 = vector!(4.0, 0.0, 0.0);
     /// let res = vector!(1.0, 0.0, 0.0);
     /// assert!(v1.normalize() == res);
     /// ```
     pub fn normalize(&self) -> Self {
         let magn = self.magnitude();
-        Vector::new(
-            self._x / magn,
-            self._y / magn,
-            self._z / magn
-        )
+        Vector::new(self._x / magn, self._y / magn, self._z / magn)
+    }
+
+    /// Compute the dot product between two `Vector`s
+    ///
+    /// The dot product is defined as the sum of the
+    /// elementwise multiplication between two vectors.
+    /// It should always return a scalar value.
+    ///
+    /// # Examples
+    /// ```
+    /// use ray_tracer::tuple::{Tuple, Vector};
+    /// use ray_tracer::vector;
+    ///
+    /// let v1 = vector!(1, 2, 3);
+    /// let v2 = vector!(2, 3, 4);
+    /// // This is 2*1 + 2*3 + 3*4 = 20
+    /// let res: f64 = 20.0;
+    /// assert_eq!(v1.dot(&v2), res);
+    /// ```
+    pub fn dot(&self, rhs: &Vector) -> f64 {
+        let mut dot_value = self._x * rhs.get_x();
+        dot_value += self._y * rhs.get_y();
+        dot_value += self._z * rhs.get_z();
+
+        dot_value
+    }
+
+    /// Compute the cross product between two `Vector`s
+    ///
+    /// The cross product will return a perpendicular `Vector`
+    /// to both the input `Vector`s, such that their dot product
+    /// should be zero.
+    ///
+    /// # Examples
+    /// ```
+    /// use ray_tracer::tuple::{Tuple, Vector};
+    /// use ray_tracer::vector;
+    ///
+    /// let v1 = vector!(1, 2, 3);
+    /// let v2 = vector!(2, 3, 4);
+    /// let res= vector!(-1, 2, -1);
+    /// assert!(v1.cross(&v2) == res);
+    /// ```
+    pub fn cross(&self, rhs: &Vector) -> Self {
+        let x_component = self._y * rhs.get_z() - self._z * rhs.get_y();
+        let y_component = self._z * rhs.get_x() - self._x * rhs.get_z();
+        let z_component = self._x * rhs.get_y() - self._y * rhs.get_x();
+
+        Vector::new(x_component, y_component, z_component)
     }
 }
 
@@ -166,11 +211,7 @@ impl Neg for Vector {
     type Output = Vector;
 
     fn neg(self) -> Vector {
-        Vector::new(
-            -self._x,
-            -self._y,
-            -self._z
-        )
+        Vector::new(-self._x, -self._y, -self._z)
     }
 }
 
@@ -179,11 +220,7 @@ impl Mul<f64> for Vector {
     type Output = Self;
 
     fn mul(self, rhs: f64) -> Self {
-        Vector::new(
-            self._x * rhs,
-            self._y * rhs,
-            self._z * rhs
-        )
+        Vector::new(self._x * rhs, self._y * rhs, self._z * rhs)
     }
 }
 
@@ -192,11 +229,7 @@ impl Mul<Vector> for f64 {
     type Output = Vector;
 
     fn mul(self, rhs: Vector) -> Vector {
-        Vector::new(
-            self * rhs.get_x(),
-            self * rhs.get_y(),
-            self * rhs.get_z()
-        )
+        Vector::new(self * rhs.get_x(), self * rhs.get_y(), self * rhs.get_z())
     }
 }
 
@@ -205,11 +238,7 @@ impl Div<f64> for Vector {
     type Output = Self;
 
     fn div(self, rhs: f64) -> Self {
-        Vector::new(
-            self._x / rhs,
-            self._y / rhs,
-            self._z / rhs
-        )
+        Vector::new(self._x / rhs, self._y / rhs, self._z / rhs)
     }
 }
 
@@ -217,7 +246,7 @@ impl Div<f64> for Vector {
 #[macro_export]
 macro_rules! vector {
     ($x:expr, $y:expr, $z:expr) => {
-        Vector::new($x, $y, $z)
+        Vector::new($x as f64, $y as f64, $z as f64)
     };
 }
 
@@ -367,5 +396,25 @@ mod tests {
         let v1 = v1.normalize();
         let res: f64 = 1.0;
         assert_eq!(v1.magnitude(), res);
+    }
+
+    #[test]
+    fn dot_product() {
+        let v1 = vector!(1, 2, 3);
+        let v2 = vector!(2, 3, 4);
+        let res: f64 = 20.0;
+        assert_eq!(v1.dot(&v2), res);
+    }
+
+    #[test]
+    fn cross_product() {
+        let v1 = vector!(1, 2, 3);
+        let v2 = vector!(2, 3, 4);
+        let res = vector!(-1, 2, -1);
+
+        assert!(v1.cross(&v2) == res);
+        // The cross product is not commutative
+        let res = vector!(1, -2, 1);
+        assert!(v2.cross(&v1) == res);
     }
 }
