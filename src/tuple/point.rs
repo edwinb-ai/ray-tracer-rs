@@ -169,6 +169,7 @@ impl Div<f64> for Point {
 }
 
 // * Useful macros
+#[macro_export]
 macro_rules! point {
     ($x:expr, $y:expr, $z:expr) => {
         Point::new($x, $y, $z)

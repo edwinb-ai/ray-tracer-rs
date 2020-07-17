@@ -30,6 +30,29 @@ impl Vector {
 
         magn.sqrt()
     }
+
+    /// Compute the magnitude of a `Vector` and normalize it.
+    /// 
+    /// This should always return a new `Vector` whose magnitude
+    /// should be always 1.0.
+    /// 
+    /// # Examples
+    /// ```
+    /// use ray_tracer::tuple::{Tuple, Vector};
+    /// use ray_tracer::vector;
+    /// 
+    /// let v1 = vector!(4.0, 0.0, 0.0);
+    /// let res = vector!(1.0, 0.0, 0.0);
+    /// assert!(v1.normalize() == res);
+    /// ```
+    pub fn normalize(&self) -> Self {
+        let magn = self.magnitude();
+        Vector::new(
+            self._x / magn,
+            self._y / magn,
+            self._z / magn
+        )
+    }
 }
 
 // * Trait implementations
@@ -191,6 +214,7 @@ impl Div<f64> for Vector {
 }
 
 // * Useful macros
+#[macro_export]
 macro_rules! vector {
     ($x:expr, $y:expr, $z:expr) => {
         Vector::new($x, $y, $z)
@@ -326,5 +350,22 @@ mod tests {
         let v1 = vector!(1.0, 2.0, 3.0);
         let v2 = Vector::new(1.0, 2.0, 3.0);
         assert!(v1 == v2);
+    }
+
+    #[test]
+    fn normalize_vector() {
+        let v1 = vector!(4.0, 0.0, 0.0);
+        let res = vector!(1.0, 0.0, 0.0);
+        assert!(v1.normalize() == res);
+
+        let v1 = vector!(1.0, 2.0, 3.0);
+        let res = vector!(0.2672612, 0.5345224, 0.8017837);
+        assert!(v1.normalize() == res);
+
+        // Magnitude of a normalized vector
+        let v1 = vector!(1.0, 2.0, 3.0);
+        let v1 = v1.normalize();
+        let res: f64 = 1.0;
+        assert_eq!(v1.magnitude(), res);
     }
 }
