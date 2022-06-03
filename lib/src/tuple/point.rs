@@ -1,6 +1,6 @@
 use crate::tuple::utils::float_eq;
 use crate::tuple::{Tuple, Vector};
-use std::ops::{Add, Sub, Neg, Mul, Div};
+use std::ops::{Add, Div, Mul, Neg, Sub};
 
 #[derive(Copy, Clone, Debug)]
 pub struct Point {
@@ -67,21 +67,21 @@ impl PartialEq for Point {
 }
 
 /// Add a `Point` and a `Vector`
-/// 
+///
 /// When you add a `Point` and a `Vector` the result
 /// should always be a `Point`.
-/// 
+///
 /// # Examples
 /// ```
 /// use ray_tracer::tuple::*;
-/// 
+///
 /// let p1 = Point::new(3.0, -2.0, 5.0);
 /// let v1 = Vector::new(-2.0, 3.0, 1.0);
 /// let res: Point = p1 + v1; // Should be of type `Point`
 /// ```
 impl Add<Vector> for Point {
     type Output = Point;
-    
+
     fn add(self, other: Vector) -> Point {
         Point::new(
             self._x + other.get_x(),
@@ -90,7 +90,6 @@ impl Add<Vector> for Point {
         )
     }
 }
-
 
 /// Subtract two `Point`s.
 impl Sub for Point {
@@ -122,11 +121,7 @@ impl Neg for Point {
     type Output = Point;
 
     fn neg(self) -> Point {
-        Point::new(
-            -self._x,
-            -self._y,
-            -self._z
-        )
+        Point::new(-self._x, -self._y, -self._z)
     }
 }
 
@@ -135,11 +130,7 @@ impl Mul<f64> for Point {
     type Output = Self;
 
     fn mul(self, rhs: f64) -> Self {
-        Point::new(
-            self._x * rhs,
-            self._y * rhs,
-            self._z * rhs
-        )
+        Point::new(self._x * rhs, self._y * rhs, self._z * rhs)
     }
 }
 
@@ -148,11 +139,7 @@ impl Mul<Point> for f64 {
     type Output = Point;
 
     fn mul(self, rhs: Point) -> Point {
-        Point::new(
-            self * rhs.get_x(),
-            self * rhs.get_y(),
-            self * rhs.get_z()
-        )
+        Point::new(self * rhs.get_x(), self * rhs.get_y(), self * rhs.get_z())
     }
 }
 
@@ -161,11 +148,7 @@ impl Div<f64> for Point {
     type Output = Self;
 
     fn div(self, rhs: f64) -> Self {
-        Point::new(
-            self._x / rhs,
-            self._y / rhs,
-            self._z / rhs
-        )
+        Point::new(self._x / rhs, self._y / rhs, self._z / rhs)
     }
 }
 
