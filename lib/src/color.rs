@@ -3,13 +3,13 @@ use std::ops::{Add, Mul, Sub};
 
 #[derive(Copy, Clone, Debug)]
 pub struct Color {
-    _red: f64,
-    _green: f64,
-    _blue: f64,
+    pub _red: f64,
+    pub _green: f64,
+    pub _blue: f64,
 }
 
 impl Color {
-    fn new(r: f64, g: f64, b: f64) -> Color {
+    pub fn new(r: f64, g: f64, b: f64) -> Color {
         Color {
             _red: r,
             _green: g,
@@ -97,9 +97,9 @@ impl PartialEq for Color {
 // * Useful macros
 #[macro_export]
 macro_rules! color {
-    ($r:expr, $g:expr, $b:expr) => {
+    ($r:expr, $g:expr, $b:expr) => {{
         Color::new($r as f64, $g as f64, $b as f64)
-    };
+    }};
 }
 
 #[cfg(test)]

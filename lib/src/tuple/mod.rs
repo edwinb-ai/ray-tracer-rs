@@ -2,7 +2,6 @@
 pub mod point;
 pub mod utils;
 pub mod vector;
-pub mod color;
 
 // Imports
 pub use point::Point;
