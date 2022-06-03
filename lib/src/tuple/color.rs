@@ -94,13 +94,21 @@ impl PartialEq for Color {
     }
 }
 
+// * Useful macros
+#[macro_export]
+macro_rules! color {
+    ($r:expr, $g:expr, $b:expr) => {
+        Color::new($r as f64, $g as f64, $b as f64)
+    };
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
 
     #[test]
     fn create_new_color() {
-        let c = Color::new(-0.5, 0.4, 1.7);
+        let c = color!(-0.5, 0.4, 1.7);
         assert_eq!(-0.5, c.get_red());
         assert_eq!(0.4, c.get_green());
         assert_eq!(1.7, c.get_blue());
@@ -108,33 +116,33 @@ mod tests {
 
     #[test]
     fn sum_two_colors() {
-        let c1 = Color::new(0.9, 0.6, 0.75);
-        let c2 = Color::new(0.7, 0.1, 0.25);
-        let result = Color::new(1.6, 0.7, 1.0);
+        let c1 = color!(0.9, 0.6, 0.75);
+        let c2 = color!(0.7, 0.1, 0.25);
+        let result = color!(1.6, 0.7, 1.0);
         assert_eq!(c1 + c2, result);
     }
 
     #[test]
     fn subtract_two_colors() {
-        let c1 = Color::new(0.9, 0.6, 0.75);
-        let c2 = Color::new(0.7, 0.1, 0.25);
-        let result = Color::new(0.2, 0.5, 0.5);
+        let c1 = color!(0.9, 0.6, 0.75);
+        let c2 = color!(0.7, 0.1, 0.25);
+        let result = color!(0.2, 0.5, 0.5);
         assert_eq!(c1 - c2, result);
     }
 
     #[test]
     fn multiply_two_colors() {
-        let c1 = Color::new(1.0, 0.2, 0.4);
-        let c2 = Color::new(0.9, 1.0, 0.1);
-        let result = Color::new(0.9, 0.2, 0.04);
+        let c1 = color!(1.0, 0.2, 0.4);
+        let c2 = color!(0.9, 1.0, 0.1);
+        let result = color!(0.9, 0.2, 0.04);
         assert_eq!(c1 * c2, result);
     }
 
     #[test]
     fn multiply_color_and_scalar() {
-        let c1 = Color::new(0.2, 0.3, 0.4);
+        let c1 = color!(0.2, 0.3, 0.4);
         let s1 = 2.0;
-        let result = Color::new(0.4, 0.6, 0.8);
+        let result = color!(0.4, 0.6, 0.8);
         assert_eq!(c1 * s1, result);
     }
 }
