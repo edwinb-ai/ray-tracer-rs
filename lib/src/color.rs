@@ -50,7 +50,7 @@ impl Mul for Color {
         let new_red = self.red * rhs.red;
         let new_green = self.green * rhs.green;
         let new_blue = self.blue * rhs.blue;
-        
+
         Self::new(new_red, new_green, new_blue)
     }
 }
@@ -63,7 +63,7 @@ impl Mul<f64> for Color {
         let new_red = self.red * rhs;
         let new_green = self.green * rhs;
         let new_blue = self.blue * rhs;
-        
+
         Self::new(new_red, new_green, new_blue)
     }
 }

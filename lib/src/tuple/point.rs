@@ -67,11 +67,7 @@ impl Add<Vector> for Point {
     type Output = Point;
 
     fn add(self, other: Vector) -> Point {
-        Point::new(
-            self.x + other.x,
-            self.y + other.y,
-            self.z + other.z,
-        )
+        Point::new(self.x + other.x, self.y + other.y, self.z + other.z)
     }
 }
 
@@ -80,11 +76,7 @@ impl Sub for Point {
     type Output = Vector;
 
     fn sub(self, other: Point) -> Vector {
-        Vector::new(
-            self.x - other.x,
-            self.y - other.y,
-            self.z - other.z,
-        )
+        Vector::new(self.x - other.x, self.y - other.y, self.z - other.z)
     }
 }
 
@@ -93,11 +85,7 @@ impl Sub<Vector> for Point {
     type Output = Point;
 
     fn sub(self, other: Vector) -> Point {
-        Point::new(
-            self.x - other.x,
-            self.y - other.y,
-            self.z - other.z,
-        )
+        Point::new(self.x - other.x, self.y - other.y, self.z - other.z)
     }
 }
 
