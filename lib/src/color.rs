@@ -3,30 +3,18 @@ use std::ops::{Add, Mul, Sub};
 
 #[derive(Copy, Clone, Debug)]
 pub struct Color {
-    pub _red: f64,
-    pub _green: f64,
-    pub _blue: f64,
+    red: f64,
+    green: f64,
+    blue: f64,
 }
 
 impl Color {
     pub fn new(r: f64, g: f64, b: f64) -> Color {
         Color {
-            _red: r,
-            _green: g,
-            _blue: b,
+            red: r,
+            green: g,
+            blue: b,
         }
-    }
-
-    fn get_red(&self) -> f64 {
-        self._red
-    }
-
-    fn get_green(&self) -> f64 {
-        self._green
-    }
-
-    fn get_blue(&self) -> f64 {
-        self._blue
     }
 }
 
@@ -35,9 +23,9 @@ impl Add for Color {
 
     fn add(self, rhs: Self) -> Self::Output {
         Self {
-            _red: self.get_red() + rhs.get_red(),
-            _blue: self.get_blue() + rhs.get_blue(),
-            _green: self.get_green() + rhs.get_green(),
+            red: self.red + rhs.red,
+            blue: self.blue + rhs.blue,
+            green: self.green + rhs.green,
         }
     }
 }
@@ -47,9 +35,9 @@ impl Sub for Color {
 
     fn sub(self, rhs: Self) -> Self::Output {
         Self {
-            _red: self.get_red() - rhs.get_red(),
-            _blue: self.get_blue() - rhs.get_blue(),
-            _green: self.get_green() - rhs.get_green(),
+            red: self.red - rhs.red,
+            blue: self.blue - rhs.blue,
+            green: self.green - rhs.green,
         }
     }
 }
@@ -59,9 +47,9 @@ impl Mul for Color {
     type Output = Self;
 
     fn mul(self, rhs: Self) -> Self::Output {
-        let new_red = self.get_red() * rhs.get_red();
-        let new_green = self.get_green() * rhs.get_green();
-        let new_blue = self.get_blue() * rhs.get_blue();
+        let new_red = self.red * rhs.red;
+        let new_green = self.green * rhs.green;
+        let new_blue = self.blue * rhs.blue;
         
         Self::new(new_red, new_green, new_blue)
     }
@@ -72,9 +60,9 @@ impl Mul<f64> for Color {
     type Output = Self;
 
     fn mul(self, rhs: f64) -> Self::Output {
-        let new_red = self.get_red() * rhs;
-        let new_green = self.get_green() * rhs;
-        let new_blue = self.get_blue() * rhs;
+        let new_red = self.red * rhs;
+        let new_green = self.green * rhs;
+        let new_blue = self.blue * rhs;
         
         Self::new(new_red, new_green, new_blue)
     }
@@ -82,9 +70,9 @@ impl Mul<f64> for Color {
 
 impl PartialEq for Color {
     fn eq(&self, other: &Self) -> bool {
-        let xtrue = float_eq(self.get_red(), other.get_red());
-        let ytrue = float_eq(self.get_blue(), other.get_blue());
-        let ztrue = float_eq(self.get_green(), other.get_green());
+        let xtrue = float_eq(self.red, other.red);
+        let ytrue = float_eq(self.blue, other.blue);
+        let ztrue = float_eq(self.green, other.green);
 
         if xtrue && ytrue && ztrue {
             true
@@ -97,9 +85,9 @@ impl PartialEq for Color {
 // * Useful macros
 #[macro_export]
 macro_rules! color {
-    ($r:expr, $g:expr, $b:expr) => {{
+    ($r:expr, $g:expr, $b:expr) => {
         Color::new($r as f64, $g as f64, $b as f64)
-    }};
+    };
 }
 
 #[cfg(test)]
@@ -109,9 +97,9 @@ mod tests {
     #[test]
     fn create_new_color() {
         let c = color!(-0.5, 0.4, 1.7);
-        assert_eq!(-0.5, c.get_red());
-        assert_eq!(0.4, c.get_green());
-        assert_eq!(1.7, c.get_blue());
+        assert_eq!(-0.5, c.red);
+        assert_eq!(0.4, c.green);
+        assert_eq!(1.7, c.blue);
     }
 
     #[test]

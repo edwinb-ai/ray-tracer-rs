@@ -18,8 +18,4 @@ pub use vector::Vector;
 pub trait Tuple: PartialEq {
     fn origin() -> Self;
     fn new(x: f64, y: f64, z: f64) -> Self;
-    fn get_x(&self) -> f64;
-    fn get_y(&self) -> f64;
-    fn get_z(&self) -> f64;
-    fn get_w(&self) -> f64;
 }

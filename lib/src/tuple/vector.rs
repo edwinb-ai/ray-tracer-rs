@@ -4,10 +4,10 @@ use std::ops::{Add, Div, Mul, Neg, Sub};
 
 #[derive(Copy, Clone, Debug)]
 pub struct Vector {
-    _x: f64,
-    _y: f64,
-    _z: f64,
-    _w: f64,
+    pub x: f64,
+    pub y: f64,
+    pub z: f64,
+    pub w: f64,
 }
 
 // * Methods for `Vector`
@@ -25,9 +25,9 @@ impl Vector {
     /// assert_eq!(v1.magnitude(), res.sqrt());
     /// ```
     pub fn magnitude(&self) -> f64 {
-        let mut magn: f64 = self._x * self._x;
-        magn += self._y * self._y;
-        magn += self._z * self._z;
+        let mut magn: f64 = self.x * self.x;
+        magn += self.y * self.y;
+        magn += self.z * self.z;
 
         magn.sqrt()
     }
@@ -48,7 +48,7 @@ impl Vector {
     /// ```
     pub fn normalize(&self) -> Self {
         let magn = self.magnitude();
-        Vector::new(self._x / magn, self._y / magn, self._z / magn)
+        Vector::new(self.x / magn, self.y / magn, self.z / magn)
     }
 
     /// Compute the dot product between two `Vector`s
@@ -69,9 +69,9 @@ impl Vector {
     /// assert_eq!(v1.dot(&v2), res);
     /// ```
     pub fn dot(&self, rhs: &Vector) -> f64 {
-        let mut dot_value = self._x * rhs.get_x();
-        dot_value += self._y * rhs.get_y();
-        dot_value += self._z * rhs.get_z();
+        let mut dot_value = self.x * rhs.x;
+        dot_value += self.y * rhs.y;
+        dot_value += self.z * rhs.z;
 
         dot_value
     }
@@ -93,9 +93,9 @@ impl Vector {
     /// assert!(v1.cross(&v2) == res);
     /// ```
     pub fn cross(&self, rhs: &Vector) -> Self {
-        let x_component = self._y * rhs.get_z() - self._z * rhs.get_y();
-        let y_component = self._z * rhs.get_x() - self._x * rhs.get_z();
-        let z_component = self._x * rhs.get_y() - self._y * rhs.get_x();
+        let x_component = self.y * rhs.z - self.z * rhs.y;
+        let y_component = self.z * rhs.x - self.x * rhs.z;
+        let z_component = self.x * rhs.y - self.y * rhs.x;
 
         Vector::new(x_component, y_component, z_component)
     }
@@ -106,46 +106,30 @@ impl Tuple for Vector {
     /// Create a `Vector` centered at `(0, 0, 0)`
     fn origin() -> Self {
         Vector {
-            _x: 0.0,
-            _y: 0.0,
-            _z: 0.0,
-            _w: 1.0,
+            x: 0.0,
+            y: 0.0,
+            z: 0.0,
+            w: 1.0,
         }
     }
 
     /// Create a new `Vector` with position `(x, y, z)`
     fn new(x: f64, y: f64, z: f64) -> Self {
         Vector {
-            _x: x,
-            _y: y,
-            _z: z,
-            _w: 1.0,
+            x: x,
+            y: y,
+            z: z,
+            w: 1.0,
         }
-    }
-
-    fn get_x(&self) -> f64 {
-        self._x
-    }
-
-    fn get_y(&self) -> f64 {
-        self._y
-    }
-
-    fn get_z(&self) -> f64 {
-        self._z
-    }
-
-    fn get_w(&self) -> f64 {
-        self._w
     }
 }
 
 impl PartialEq for Vector {
     fn eq(&self, other: &Self) -> bool {
-        let xtrue = float_eq(self._x, other.get_x());
-        let ytrue = float_eq(self._y, other.get_y());
-        let ztrue = float_eq(self._z, other.get_z());
-        let wtrue = float_eq(self._w, other.get_w());
+        let xtrue = float_eq(self.x, other.x);
+        let ytrue = float_eq(self.y, other.y);
+        let ztrue = float_eq(self.z, other.z);
+        let wtrue = float_eq(self.w, other.w);
 
         if xtrue && ytrue && ztrue && wtrue {
             true
@@ -161,9 +145,9 @@ impl Add for Vector {
 
     fn add(self, other: Vector) -> Vector {
         Vector::new(
-            self._x + other.get_x(),
-            self._y + other.get_y(),
-            self._z + other.get_z(),
+            self.x + other.x,
+            self.y + other.y,
+            self.z + other.z,
         )
     }
 }
@@ -174,9 +158,9 @@ impl Add<Point> for Vector {
 
     fn add(self, other: Point) -> Point {
         Point::new(
-            self._x + other.get_x(),
-            self._y + other.get_y(),
-            self._z + other.get_z(),
+            self.x + other.x,
+            self.y + other.y,
+            self.z + other.z,
         )
     }
 }
@@ -187,9 +171,9 @@ impl Sub for Vector {
 
     fn sub(self, other: Vector) -> Vector {
         Vector::new(
-            self._x - other.get_x(),
-            self._y - other.get_y(),
-            self._z - other.get_z(),
+            self.x - other.x,
+            self.y - other.y,
+            self.z - other.z,
         )
     }
 }
@@ -200,9 +184,9 @@ impl Sub<Point> for Vector {
 
     fn sub(self, other: Point) -> Point {
         Point::new(
-            self._x - other.get_x(),
-            self._y - other.get_y(),
-            self._z - other.get_z(),
+            self.x - other.x,
+            self.y - other.y,
+            self.z - other.z,
         )
     }
 }
@@ -212,7 +196,7 @@ impl Neg for Vector {
     type Output = Vector;
 
     fn neg(self) -> Vector {
-        Vector::new(-self._x, -self._y, -self._z)
+        Vector::new(-self.x, -self.y, -self.z)
     }
 }
 
@@ -221,7 +205,7 @@ impl Mul<f64> for Vector {
     type Output = Self;
 
     fn mul(self, rhs: f64) -> Self {
-        Vector::new(self._x * rhs, self._y * rhs, self._z * rhs)
+        Vector::new(self.x * rhs, self.y * rhs, self.z * rhs)
     }
 }
 
@@ -230,7 +214,7 @@ impl Mul<Vector> for f64 {
     type Output = Vector;
 
     fn mul(self, rhs: Vector) -> Vector {
-        Vector::new(self * rhs.get_x(), self * rhs.get_y(), self * rhs.get_z())
+        Vector::new(self * rhs.x, self * rhs.y, self * rhs.z)
     }
 }
 
@@ -239,7 +223,7 @@ impl Div<f64> for Vector {
     type Output = Self;
 
     fn div(self, rhs: f64) -> Self {
-        Vector::new(self._x / rhs, self._y / rhs, self._z / rhs)
+        Vector::new(self.x / rhs, self.y / rhs, self.z / rhs)
     }
 }
 
@@ -259,19 +243,19 @@ mod tests {
     #[test]
     fn test_for_origin_vector() {
         let v = Vector::origin();
-        assert_eq!(0.0, v.get_x());
-        assert_eq!(0.0, v.get_y());
-        assert_eq!(0.0, v.get_z());
-        assert_eq!(1.0, v.get_w());
+        assert_eq!(0.0, v.x);
+        assert_eq!(0.0, v.y);
+        assert_eq!(0.0, v.z);
+        assert_eq!(1.0, v.w);
     }
 
     #[test]
     fn test_new_vector() {
         let v = Vector::new(4.0, -4.0, 3.0);
-        assert_eq!(4.0, v.get_x());
-        assert_eq!(-4.0, v.get_y());
-        assert_eq!(3.0, v.get_z());
-        assert_eq!(1.0, v.get_w());
+        assert_eq!(4.0, v.x);
+        assert_eq!(-4.0, v.y);
+        assert_eq!(3.0, v.z);
+        assert_eq!(1.0, v.w);
     }
 
     #[test]

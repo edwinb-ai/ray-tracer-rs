@@ -4,10 +4,10 @@ use std::ops::{Add, Div, Mul, Neg, Sub};
 
 #[derive(Copy, Clone, Debug)]
 pub struct Point {
-    _x: f64,
-    _y: f64,
-    _z: f64,
-    _w: f64,
+    pub x: f64,
+    pub y: f64,
+    pub z: f64,
+    pub w: f64,
 }
 
 // * Trait implementations
@@ -15,37 +15,21 @@ impl Tuple for Point {
     /// Create a `Point` centered at `(0, 0, 0)`
     fn origin() -> Self {
         Point {
-            _x: 0.0,
-            _y: 0.0,
-            _z: 0.0,
-            _w: 0.0,
+            x: 0.0,
+            y: 0.0,
+            z: 0.0,
+            w: 0.0,
         }
     }
 
     /// Create a new `Point` with position `(x, y, z)`
     fn new(x: f64, y: f64, z: f64) -> Self {
         Point {
-            _x: x,
-            _y: y,
-            _z: z,
-            _w: 0.0,
+            x: x,
+            y: y,
+            z: z,
+            w: 0.0,
         }
-    }
-
-    fn get_x(&self) -> f64 {
-        self._x
-    }
-
-    fn get_y(&self) -> f64 {
-        self._y
-    }
-
-    fn get_z(&self) -> f64 {
-        self._z
-    }
-
-    fn get_w(&self) -> f64 {
-        self._w
     }
 }
 
@@ -53,10 +37,10 @@ impl PartialEq for Point {
     /// Allow for the comparison between a `Point` and
     /// another `Point`
     fn eq(&self, other: &Self) -> bool {
-        let xtrue = float_eq(self._x, other.get_x());
-        let ytrue = float_eq(self._y, other.get_y());
-        let ztrue = float_eq(self._z, other.get_z());
-        let wtrue = float_eq(self._w, other.get_w());
+        let xtrue = float_eq(self.x, other.x);
+        let ytrue = float_eq(self.y, other.y);
+        let ztrue = float_eq(self.z, other.z);
+        let wtrue = float_eq(self.w, other.w);
 
         if xtrue && ytrue && ztrue && wtrue {
             true
@@ -84,9 +68,9 @@ impl Add<Vector> for Point {
 
     fn add(self, other: Vector) -> Point {
         Point::new(
-            self._x + other.get_x(),
-            self._y + other.get_y(),
-            self._z + other.get_z(),
+            self.x + other.x,
+            self.y + other.y,
+            self.z + other.z,
         )
     }
 }
@@ -97,9 +81,9 @@ impl Sub for Point {
 
     fn sub(self, other: Point) -> Vector {
         Vector::new(
-            self._x - other.get_x(),
-            self._y - other.get_y(),
-            self._z - other.get_z(),
+            self.x - other.x,
+            self.y - other.y,
+            self.z - other.z,
         )
     }
 }
@@ -110,9 +94,9 @@ impl Sub<Vector> for Point {
 
     fn sub(self, other: Vector) -> Point {
         Point::new(
-            self._x - other.get_x(),
-            self._y - other.get_y(),
-            self._z - other.get_z(),
+            self.x - other.x,
+            self.y - other.y,
+            self.z - other.z,
         )
     }
 }
@@ -121,7 +105,7 @@ impl Neg for Point {
     type Output = Point;
 
     fn neg(self) -> Point {
-        Point::new(-self._x, -self._y, -self._z)
+        Point::new(-self.x, -self.y, -self.z)
     }
 }
 
@@ -130,7 +114,7 @@ impl Mul<f64> for Point {
     type Output = Self;
 
     fn mul(self, rhs: f64) -> Self {
-        Point::new(self._x * rhs, self._y * rhs, self._z * rhs)
+        Point::new(self.x * rhs, self.y * rhs, self.z * rhs)
     }
 }
 
@@ -139,7 +123,7 @@ impl Mul<Point> for f64 {
     type Output = Point;
 
     fn mul(self, rhs: Point) -> Point {
-        Point::new(self * rhs.get_x(), self * rhs.get_y(), self * rhs.get_z())
+        Point::new(self * rhs.x, self * rhs.y, self * rhs.z)
     }
 }
 
@@ -148,7 +132,7 @@ impl Div<f64> for Point {
     type Output = Self;
 
     fn div(self, rhs: f64) -> Self {
-        Point::new(self._x / rhs, self._y / rhs, self._z / rhs)
+        Point::new(self.x / rhs, self.y / rhs, self.z / rhs)
     }
 }
 
@@ -167,19 +151,19 @@ mod tests {
     #[test]
     fn test_for_origin_point() {
         let p = Point::origin();
-        assert_eq!(0.0, p.get_w());
-        assert_eq!(0.0, p.get_x());
-        assert_eq!(0.0, p.get_y());
-        assert_eq!(0.0, p.get_z());
+        assert_eq!(0.0, p.w);
+        assert_eq!(0.0, p.x);
+        assert_eq!(0.0, p.y);
+        assert_eq!(0.0, p.z);
     }
 
     #[test]
     fn test_new_point() {
         let p = Point::new(4.0, -4.0, 3.0);
-        assert_eq!(4.0, p.get_x());
-        assert_eq!(-4.0, p.get_y());
-        assert_eq!(3.0, p.get_z());
-        assert_eq!(0.0, p.get_w());
+        assert_eq!(4.0, p.x);
+        assert_eq!(-4.0, p.y);
+        assert_eq!(3.0, p.z);
+        assert_eq!(0.0, p.w);
     }
 
     #[test]

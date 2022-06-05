@@ -3,9 +3,9 @@ use crate::color::Color; // for the type
 
 #[derive(Clone, Debug)]
 pub struct Canvas {
-    pub width: usize,
-    pub height: usize,
-    pub data: Vec<Vec<Color>>,
+    width: usize,
+    height: usize,
+    data: Vec<Vec<Color>>,
 }
 
 impl Canvas {
