@@ -24,8 +24,16 @@ mod tests {
     use super::*;
 
     #[test]
-    fn size_of_canvas() {
-        let canvas1 = Canvas::new(10, 10);
+    fn create_new_canvas() {
+        let canvas1 = Canvas::new(10, 20);
+        // First, check for the size
         assert_eq!(canvas1.width, 10);
+        assert_eq!(canvas1.height, 20);
+        // Now, check that all new pixels are black
+        for x in canvas1.data {
+            for y in x {
+                assert!(y.red == 0.0 && y.green == 0.0 && y.blue == 0.0)
+            }
+        }
     }
 }

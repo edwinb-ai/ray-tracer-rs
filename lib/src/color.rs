@@ -3,9 +3,9 @@ use std::ops::{Add, Mul, Sub};
 
 #[derive(Copy, Clone, Debug)]
 pub struct Color {
-    red: f64,
-    green: f64,
-    blue: f64,
+    pub red: f64,
+    pub green: f64,
+    pub blue: f64,
 }
 
 impl Color {
