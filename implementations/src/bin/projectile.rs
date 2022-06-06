@@ -39,7 +39,7 @@ fn main() {
     let mut p1: Projectile = tick(&e, &p);
     let mut counter: usize = 0;
 
-    while p1.position.get_y() >= 0.0 && p1.position.get_x() >= 0.0 {
+    while p1.position.y >= 0.0 && p1.position.x >= 0.0 {
         p1 = tick(&e, &p1);
         counter += 1;
 
