@@ -13,6 +13,7 @@ impl Canvas {
         Canvas {
             width: width,
             height: height,
+            // Fill the data with black "pixels"
             data: vec![vec![color!(0.0, 0.0, 0.0); height]; width],
         }
     }
