@@ -18,19 +18,40 @@ impl Canvas {
         }
     }
 
-    /// Return the value of the `Canvas` at position (w, h)
+    /// Return the value of the `Canvas` at position (`w`, `h`)
     ///
     /// # Examples
     /// ```
     /// use ray_tracer::canvas::Canvas;
     /// use ray_tracer::color::Color;
     /// use ray_tracer::color;
-    /// 
+    ///
     /// let canvas1 = Canvas::new(10, 20);
     /// assert!(canvas1.pixel_at(1, 1) == color!(0.0, 0.0, 0.0))
     /// ```
-    pub fn pixel_at(self, w: usize, h: usize) -> Color {
+    pub fn pixel_at(&self, w: usize, h: usize) -> Color {
         self.data[h][w]
+    }
+
+    /// Write to the data the value of the pixel color given by `c`,
+    /// at position (`h`, `w`). This function overwrites the original value
+    /// in the `data` field of the `Canvas` type.
+    ///
+    /// # Examples
+    /// ```
+    /// use ray_tracer::canvas::Canvas;
+    /// use ray_tracer::color::Color;
+    /// use ray_tracer::color;
+    ///
+    /// let mut canvas1 = Canvas::new(10, 20);
+    /// let new_color = color!(1.0, 0.0, 0.0);
+    /// canvas1.write_pixel(1, 1, color!(1.0, 0.0, 0.0));
+    /// assert!(canvas1.pixel_at(1, 1) == new_color);
+    /// ```
+    pub fn write_pixel(&mut self, w: usize, h: usize, c: Color) {
+        if h <= self.height && w <= self.width {
+            self.data[h][w] = c;
+        }
     }
 }
 
@@ -51,5 +72,19 @@ mod tests {
                 assert!(y == black)
             }
         }
+    }
+
+    #[test]
+    fn read_pixel() {
+        let canvas1 = Canvas::new(10, 20);
+        assert!(canvas1.pixel_at(1, 2) == color!(0.0, 0.0, 0.0));
+    }
+
+    #[test]
+    fn change_value_of_pixel() {
+        let mut canvas1 = Canvas::new(10, 20);
+        let new_color = color!(1.0, 0.0, 0.0);
+        canvas1.write_pixel(1, 1, color!(1.0, 0.0, 0.0));
+        assert!(canvas1.pixel_at(1, 1) == new_color);
     }
 }
