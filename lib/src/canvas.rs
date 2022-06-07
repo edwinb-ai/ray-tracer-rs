@@ -10,13 +10,22 @@ pub struct Canvas {
     pub data: Vec<Vec<Color>>,
 }
 
+fn scale_color(c: f64) -> usize {
+    let float_max_value = MAX_COLOR_VALUE as f64;
+
+    ((c * float_max_value)
+        .floor()
+        .min(float_max_value as f64)
+        .max(0.0)) as usize
+}
+
 impl Canvas {
     pub fn new(width: usize, height: usize) -> Canvas {
         Canvas {
             width: width,
             height: height,
             // Fill the data with black "pixels"
-            data: vec![vec![color!(0.0, 0.0, 0.0); height]; width],
+            data: vec![vec![color!(0.0, 0.0, 0.0); width]; height],
         }
     }
 
@@ -66,6 +75,19 @@ impl Canvas {
         // Add the maximum value that the colors can take
         ppm_string.push_str(format!("{}\n", MAX_COLOR_VALUE).as_str());
 
+        // TODO: Make it so that it can print the three channels column-wise
+        for col in 0..self.width {
+            for row in 0..self.height {
+                let current_color = self.pixel_at(col, row);
+                let new_red = scale_color(current_color.red);
+                let new_green = scale_color(current_color.green);
+                let new_blue = scale_color(current_color.blue);
+                // Write the colors to the PPM string we have so far
+                ppm_string.push_str(format!("{} {} {}\n", new_red, new_green, new_blue).as_str());
+                println!("{}", ppm_string);
+            }
+        }
+
         ppm_string
     }
 }
@@ -104,9 +126,31 @@ mod tests {
     }
 
     #[test]
-    fn write_to_ppm() {
-        let canvas1 = Canvas::new(5, 3);
-        let ppm_string = canvas1.canvas_to_ppm();
-        println!("{}", ppm_string);
+    fn header_ppm() {
+        let c = Canvas::new(5, 3);
+        let ppm = c.canvas_to_ppm();
+        let mut lines = ppm.lines();
+        assert_eq!(lines.next().unwrap(), "P3");
+        assert_eq!(lines.next().unwrap(), "5 3");
+        assert_eq!(lines.next().unwrap(), "255");
+    }
+
+    #[test]
+    fn test_ppm_pixel_data() {
+        let mut c = Canvas::new(5, 3);
+        c.write_pixel(0, 0, color!(1.5, 0, 0));
+        c.write_pixel(2, 1, color!(0, 0.5, 0));
+        c.write_pixel(4, 2, color!(-0.5, 0, 1));
+
+        let ppm = c.canvas_to_ppm();
+        let mut lines = ppm.lines();
+        // Ignore the header
+        lines.next();
+        lines.next();
+        lines.next();
+
+        assert_eq!(lines.next().unwrap(), "255 0 0 0 0 0 0 0 0 0 0 0 0 0 0");
+        assert_eq!(lines.next().unwrap(), "0 0 0 0 0 0 0 127 0 0 0 0 0 0 0");
+        assert_eq!(lines.next().unwrap(), "0 0 0 0 0 0 0 0 0 0 0 0 0 0 255");
     }
 }
