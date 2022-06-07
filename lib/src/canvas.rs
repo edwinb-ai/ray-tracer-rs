@@ -1,6 +1,8 @@
 use crate::color; // for the macro
 use crate::color::Color; // for the type
 
+const MAX_COLOR_VALUE: usize = 255;
+
 #[derive(Clone, Debug)]
 pub struct Canvas {
     pub width: usize,
@@ -53,6 +55,19 @@ impl Canvas {
             self.data[h][w] = c;
         }
     }
+
+    pub fn canvas_to_ppm(&self) -> String {
+        let mut ppm_string = String::new();
+        // Create the first three lines, the header
+        ppm_string.push_str("P3\n");
+        // Add the size of canvas to the header
+        let size_header = format!("{} {}\n", self.width, self.height);
+        ppm_string.push_str(size_header.as_str());
+        // Add the maximum value that the colors can take
+        ppm_string.push_str(format!("{}\n", MAX_COLOR_VALUE).as_str());
+
+        ppm_string
+    }
 }
 
 #[cfg(test)]
@@ -86,5 +101,12 @@ mod tests {
         let new_color = color!(1.0, 0.0, 0.0);
         canvas1.write_pixel(1, 1, color!(1.0, 0.0, 0.0));
         assert!(canvas1.pixel_at(1, 1) == new_color);
+    }
+
+    #[test]
+    fn write_to_ppm() {
+        let canvas1 = Canvas::new(5, 3);
+        let ppm_string = canvas1.canvas_to_ppm();
+        println!("{}", ppm_string);
     }
 }
